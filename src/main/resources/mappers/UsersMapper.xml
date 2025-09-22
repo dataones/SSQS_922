@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ccst.ssqs.mapper.UserMapper">
+
+    <select id="loginByStudentId" resultType="users">
+        SELECT *
+        FROM students
+        WHERE student_id = #{student_id}
+          and password = #{password}
+            LIMIT 1
+    </select>
+    <select id="loginByIdCard" resultType="users">
+        SELECT *
+        FROM students
+        WHERE id_card = #{id_card}
+          and password = #{password}
+            LIMIT 1
+    </select>
+    <select id="findByStudentId" resultType="student">
+        SELECT
+            id,
+            student_id,
+            course_id,
+            average_score,
+            gpa,
+            grade_type,
+            status,
+            created_at,
+            updated_at,
+            py_score,
+            java_score,
+            NoSql_score,
+            WX_score,
+            vue_score
+        FROM
+            student_grades  -- 关键修正：表名改为 student_grades（数据库中真实存在的成绩表）
+        WHERE
+            student_id = #{student_id};
+    </select>
+    <update id="updateStudent" parameterType="users">
+        UPDATE students
+        <set>
+            <if test="phone !=null and phone!=''">phone=#{phone},</if>
+            <if test="email !=null ">email=#{email},</if>
+            <if test="className !=null and password !='' ">class_name=#{className}</if>
+        </set>
+
+        WHERE student_id= #{studentid}
+    </update>
+
+</mapper>
