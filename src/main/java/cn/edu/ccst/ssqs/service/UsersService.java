@@ -35,4 +35,8 @@ public class UsersService {
         int rs =userMapper.resetPassword(id,newPassword);
         return  rs>=1;
     }
+    public boolean RegStudent(Users users){
+        int rs=userMapper.regStudent(users);
+        return  rs>=1;
+    }
 }

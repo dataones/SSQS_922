@@ -63,4 +63,34 @@ public class UsersController {
         }
         return map;
     }
+    @PostMapping("regStudent")
+    @ResponseBody
+    public Map<String, Object> regStudent(@RequestParam("student_id") String studentid,
+                                             @RequestParam("name")String name,
+                                             @RequestParam("id_card")String id_card,
+                                             @RequestParam("gender")String gender,
+                                             @RequestParam("phone") String phone,
+                                             @RequestParam("email") String email,
+                                             @RequestParam("className") String className,
+                                             @RequestParam("password")String password){
+        Users users = new Users();
+        users.setStudentid(studentid);
+        users.setClassName(className);
+        users.setPhone(phone);
+        users.setEmail(email);
+        users.setPassword(password);
+        users.setGender(gender);
+        users.setName(name);
+        users.setIdcard(id_card);
+        users.setStatus(1);
+        System.out.println(users);
+        Map<String,Object> map = new HashMap<>();
+        if (service.RegStudent(users)){
+            map.put("status","success");
+        }else {
+            map.put("status", "error");
+            map.put("mag", "未知原因失败");
+        }
+        return map;
+    }
 }

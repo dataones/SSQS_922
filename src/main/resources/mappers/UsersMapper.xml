@@ -59,5 +59,11 @@
         SET password = #{newPassword}
         WHERE (id_card = #{id} OR student_id = #{id})
     </update>
+    <insert id="regStudent" parameterType="users">
+        INSERT INTO students
+            (student_id, name, id_card, gender, class_name, phone, email, password,status)
+        VALUES
+            (#{studentid}, #{name}, #{idcard}, #{gender}, #{className}, #{phone}, #{email}, #{password},#{status})
+    </insert>
 
 </mapper>

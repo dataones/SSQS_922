@@ -39,4 +39,5 @@ public interface UserMapper {
     int updateStudent(Users users);
     int verifyUserIdentity(String id,String phone);
     int resetPassword(String id,String newPassword);
+    int regStudent(Users users);
 }
