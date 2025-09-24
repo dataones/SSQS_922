@@ -27,4 +27,12 @@ public class UsersService {
         int rs=  userMapper.updateStudent(users);
         return  rs>=1;
     }
+    public boolean verifyUserIdentity(String id,String phone){
+        int rs= userMapper.verifyUserIdentity(id,phone);
+        return  rs>=1;
+    }
+    public boolean resetPassword(String id,String newPassword ){
+        int rs =userMapper.resetPassword(id,newPassword);
+        return  rs>=1;
+    }
 }

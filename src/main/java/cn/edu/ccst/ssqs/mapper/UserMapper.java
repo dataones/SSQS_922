@@ -5,7 +5,7 @@ import cn.edu.ccst.ssqs.entity.Users;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+
 
 @Mapper
 public interface UserMapper {
@@ -37,5 +37,6 @@ public interface UserMapper {
      */
     Student findByStudentId(@Param("student_id") String student_id);
     int updateStudent(Users users);
-
+    int verifyUserIdentity(String id,String phone);
+    int resetPassword(String id,String newPassword);
 }

@@ -84,4 +84,105 @@ public class LoginController {
         }
         return map;
     }
+    /**
+     * 忘记密码接口 - 验证用户身份信息
+     * @param params 包含id和phone参数
+     * @return 验证结果
+     */
+
+    @PostMapping("/forgotPassword")
+    @ResponseBody
+    public Map<String, Object> forgotPassword(@RequestBody Map<String, String> params) {
+        String id = params.get("id");        // 身份证号或学号
+        String phone = params.get("phone");  // 手机号
+
+        // 打印接收到的参数（用于调试）
+        System.out.println("【忘记密码接口】接收参数 - id: " + id + ", phone: " + phone);
+
+        Map<String, Object> map = new HashMap<>();
+
+        // 1. 参数校验
+        if (id == null || id.trim().isEmpty() || phone == null || phone.trim().isEmpty()) {
+            map.put("status", "ERROR");
+            map.put("msg", "身份证号/学号和手机号不能为空");
+            return map;
+        }
+
+        // 2. 手机号格式校验（去除空格）
+        String purePhone = phone.replaceAll("\\s+", "");
+        if (!purePhone.matches("^1[3-9]\\d{9}$")) {
+            map.put("status", "ERROR");
+            map.put("msg", "手机号格式不正确");
+            return map;
+        }
+
+        try {
+            // 3. 调用Service层验证用户信息
+            boolean user = usersService.verifyUserIdentity(id, purePhone);
+
+            if (user) {
+                // 4. 验证成功
+                map.put("status", "SUCCESS");
+                map.put("msg", "身份验证成功");
+
+
+            } else {
+                // 6. 验证失败
+                map.put("status", "ERROR");
+                map.put("msg", "身份验证失败，请检查身份证号/学号和手机号是否正确");
+            }
+
+        } catch (Exception e) {
+            // 7. 异常处理
+            System.err.println("【忘记密码接口】发生异常: " + e.getMessage());
+            map.put("status", "ERROR");
+            map.put("msg", "系统错误，请稍后重试");
+        }
+
+        return map;
+    }
+    @PostMapping("/resetPassword")
+    @ResponseBody
+    public Map<String, Object> resetPassword(@RequestBody Map<String, String> params) {
+        String id = params.get("id");        // 身份证号或学号
+        String newPassword = params.get("newPassword");  // 手机号
+
+        // 打印接收到的参数（用于调试）
+        System.out.println("【忘记密码接口】接收参数 - id: " + id + ", newPassword: " + newPassword);
+
+        Map<String, Object> map = new HashMap<>();
+
+        // 1. 参数校验
+        if ( newPassword == null || newPassword.trim().isEmpty()) {
+            map.put("status", "ERROR");
+            map.put("msg", "身份证号/学号和手机号不能为空");
+            return map;
+        }
+
+        try {
+            // 3. 调用Service层验证用户信息
+            boolean user = usersService.resetPassword(id, newPassword);
+
+            if (user) {
+                // 4. 验证成功
+                map.put("status", "SUCCESS");
+                map.put("msg", "身份验证成功");
+
+
+            } else {
+                // 6. 验证失败
+                map.put("status", "ERROR");
+                map.put("msg", "身份验证失败，请检查身份证号/学号和手机号是否正确");
+            }
+
+        } catch (Exception e) {
+            // 7. 异常处理
+            System.err.println("【忘记密码接口】发生异常: " + e.getMessage());
+            map.put("status", "ERROR");
+            map.put("msg", "系统错误，请稍后重试");
+        }
+
+        return map;
+    }
+
 }
